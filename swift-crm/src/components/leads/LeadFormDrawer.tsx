@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Drawer } from "@/components/ui/Drawer";
 import { isValidPhone, isValidEmail, isNonNegativeNumber } from "@/lib/utils";
-import type { Lead } from "@/lib/types";
+import type { Lead, LeadSource, LeadStatus, PropertyType } from "@/lib/types";
 
 const SOURCES = ["Website", "Instagram", "Facebook", "WhatsApp", "Referral", "Walk-in", "Call", "Other"];
 const PROPERTY_TYPES = ["Apartment", "Villa", "Plot", "Commercial", "Office", "Shop", "Other"];
@@ -28,14 +28,14 @@ export function LeadFormDrawer({
     full_name: lead?.full_name ?? "",
     phone: lead?.phone ?? "",
     email: lead?.email ?? "",
-    source: lead?.source ?? "Website",
-    property_type: lead?.property_type ?? "Apartment",
+    source: (lead?.source ?? "Website") as LeadSource,
+    property_type: (lead?.property_type ?? "Apartment") as PropertyType,
     bhk: lead?.bhk ?? "",
     preferred_location: lead?.preferred_location ?? "",
     min_budget: lead?.min_budget?.toString() ?? "",
     max_budget: lead?.max_budget?.toString() ?? "",
     notes: lead?.notes ?? "",
-    status: lead?.status ?? "NEW",
+    status: (lead?.status ?? "NEW") as LeadStatus,
     next_followup_date: lead?.next_followup_date ?? "",
     next_followup_time: lead?.next_followup_time ?? "",
   });
@@ -172,13 +172,13 @@ export function LeadFormDrawer({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="label">Source</label>
-            <select className="input" value={form.source} onChange={(e) => update("source", e.target.value)}>
+            <select className="input" value={form.source} onChange={(e) => update("source", e.target.value as LeadSource)}>
               {SOURCES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
             <label className="label">Status</label>
-            <select className="input" value={form.status} onChange={(e) => update("status", e.target.value)}>
+            <select className="input" value={form.status} onChange={(e) => update("status", e.target.value as LeadStatus)}>
               {STATUSES.map((s) => <option key={s} value={s}>{s.replace("_", " ")}</option>)}
             </select>
           </div>
@@ -189,7 +189,7 @@ export function LeadFormDrawer({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="label">Property type</label>
-              <select className="input" value={form.property_type} onChange={(e) => update("property_type", e.target.value)}>
+              <select className="input" value={form.property_type} onChange={(e) => update("property_type", e.target.value as PropertyType)}>
                 {PROPERTY_TYPES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>

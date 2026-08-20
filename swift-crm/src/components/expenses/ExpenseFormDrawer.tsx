@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Drawer } from "@/components/ui/Drawer";
 import { isNonNegativeNumber, todayISO } from "@/lib/utils";
+import type { ExpenseCategory } from "@/lib/types";
 
 const CATEGORIES = ["Advertising", "Travel", "Office", "Marketing", "Brokerage", "Salary", "Other"];
 
@@ -14,7 +15,7 @@ export function ExpenseFormDrawer({ open, onClose }: { open: boolean; onClose: (
 
   const [form, setForm] = useState({
     title: "",
-    category: "Advertising",
+    category: "Advertising" as ExpenseCategory,
     amount: "",
     expense_date: todayISO(),
     notes: "",
@@ -70,7 +71,7 @@ export function ExpenseFormDrawer({ open, onClose }: { open: boolean; onClose: (
         </div>
         <div>
           <label className="label">Category</label>
-          <select className="input" value={form.category} onChange={(e) => update("category", e.target.value)}>
+          <select className="input" value={form.category} onChange={(e) => update("category", e.target.value as ExpenseCategory)}>
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>

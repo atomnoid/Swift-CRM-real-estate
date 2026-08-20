@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Drawer } from "@/components/ui/Drawer";
 import { isNonNegativeNumber } from "@/lib/utils";
-import type { Property } from "@/lib/types";
+import type { Property, PropertyType, Furnishing, PropertyStatus } from "@/lib/types";
 
 const PROPERTY_TYPES = ["Apartment", "Villa", "Plot", "Commercial", "Office", "Shop", "Other"];
 const STATUSES = ["AVAILABLE", "HOLD", "SOLD", "RENTED"];
@@ -26,7 +26,7 @@ export function PropertyFormDrawer({
 
   const [form, setForm] = useState({
     title: property?.title ?? "",
-    property_type: property?.property_type ?? "Apartment",
+    property_type: (property?.property_type ?? "Apartment") as PropertyType,
     bhk: property?.bhk ?? "",
     location: property?.location ?? "",
     address: property?.address ?? "",
@@ -34,9 +34,9 @@ export function PropertyFormDrawer({
     price: property?.price?.toString() ?? "",
     floor: property?.floor ?? "",
     total_floors: property?.total_floors ?? "",
-    furnishing: property?.furnishing ?? "Unfurnished",
+    furnishing: (property?.furnishing ?? "Unfurnished") as Furnishing,
     possession_status: property?.possession_status ?? "",
-    status: property?.status ?? "AVAILABLE",
+    status: (property?.status ?? "AVAILABLE") as PropertyStatus,
     owner_developer: property?.owner_developer ?? "",
     description: property?.description ?? "",
     notes: property?.notes ?? "",
@@ -114,7 +114,7 @@ export function PropertyFormDrawer({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="label">Property type</label>
-            <select className="input" value={form.property_type} onChange={(e) => update("property_type", e.target.value)}>
+            <select className="input" value={form.property_type} onChange={(e) => update("property_type", e.target.value as PropertyType)}>
               {PROPERTY_TYPES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
@@ -161,13 +161,13 @@ export function PropertyFormDrawer({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="label">Furnishing</label>
-            <select className="input" value={form.furnishing} onChange={(e) => update("furnishing", e.target.value)}>
+            <select className="input" value={form.furnishing} onChange={(e) => update("furnishing", e.target.value as Furnishing)}>
               {FURNISHING.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
             <label className="label">Status</label>
-            <select className="input" value={form.status} onChange={(e) => update("status", e.target.value)}>
+            <select className="input" value={form.status} onChange={(e) => update("status", e.target.value as PropertyStatus)}>
               {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
